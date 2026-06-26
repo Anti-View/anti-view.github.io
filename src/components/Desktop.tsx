@@ -68,8 +68,8 @@ function MobileDockGlass({ wallX }: { wallX: any }) {
           height: PHONE_HEIGHT,
           maxWidth: 'none',
           x: wallX,
-          filter: 'blur(8px) saturate(1.35)',
-          scale: 1.03,
+          filter: 'blur(16px) saturate(1.35)',
+          scale: 1.0,
           transformOrigin: '0 0',
           willChange: 'transform',
         }}
