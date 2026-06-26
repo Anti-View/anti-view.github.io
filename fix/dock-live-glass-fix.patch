@@ -1,0 +1,185 @@
+diff --git a/src/components/Desktop.tsx b/src/components/Desktop.tsx
+index ec2be9f..fa08187 100644
+--- a/src/components/Desktop.tsx
++++ b/src/components/Desktop.tsx
+@@ -1,8 +1,17 @@
+ import { useState, useEffect, useRef } from 'react'
+ import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
+ import CornerKit from '@cornerkit/core'
++import { publicAsset } from '../utils/assets'
+ 
+ const UNLOCK_THRESHOLD = 64
++const PHONE_WIDTH = 402
++const PHONE_HEIGHT = 874
++const WALLPAPER_WIDTH = PHONE_WIDTH * 3
++const DOCK_LEFT = 17
++const DOCK_BOTTOM = 17
++const DOCK_HEIGHT = 103
++const DOCK_TOP = PHONE_HEIGHT - DOCK_BOTTOM - DOCK_HEIGHT
++
+ 
+ function AppIcon({ label }: { label?: string }) {
+   return (
+@@ -44,6 +53,42 @@ function Dock({ onOpenApp, onLock }: { onOpenApp?: () => void; onLock?: () => vo
+   )
+ }
+ 
++function MobileDockGlass({ wallX }: { wallX: any }) {
++  return (
++    <>
++      <motion.img
++        src={publicAsset('img/new_wallpaper.jpg')}
++        alt=""
++        aria-hidden="true"
++        className="absolute pointer-events-none select-none"
++        style={{
++          left: -DOCK_LEFT,
++          top: -DOCK_TOP,
++          width: WALLPAPER_WIDTH,
++          height: PHONE_HEIGHT,
++          maxWidth: 'none',
++          x: wallX,
++          filter: 'blur(14px) saturate(1.35)',
++          scale: 1.03,
++          transformOrigin: '0 0',
++          willChange: 'transform',
++        }}
++        draggable={false}
++      />
++      <div
++        className="absolute inset-0 pointer-events-none"
++        style={{ background: 'rgba(255, 255, 255, 0.20)' }}
++      />
++      <div
++        className="absolute inset-0 pointer-events-none"
++        style={{
++          boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
++        }}
++      />
++    </>
++  )
++}
++
+ /* ── Content panel (350×541) ── */
+ function ContentPanel({ children }: { children?: React.ReactNode }) {
+   return (
+@@ -274,7 +319,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
+     <div id="liquid-root" className="absolute inset-0 z-50 overflow-hidden bg-black">
+       {/* ── Wallpaper (single, always rendered, spring-smoothed) ── */}
+       <motion.img
+-        src="/img/new_wallpaper.jpg"
++        src={publicAsset('img/new_wallpaper.jpg')}
+         alt=""
+         data-dynamic=""
+         className="absolute left-0 top-0 pointer-events-none select-none"
+@@ -300,7 +345,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
+             filter: 'blur(12px)',
+           }}
+         />
+-        <img src="/videos/character.gif" alt="" className="w-full h-full object-contain relative" draggable={false} style={{ position: 'relative', zIndex: 1 }} />
++        <img src={publicAsset('videos/character.gif')} alt="" className="w-full h-full object-contain relative" draggable={false} style={{ position: 'relative', zIndex: 1 }} />
+       </motion.div>
+ 
+       {/* ── Unlock Div: lock icon + time + bottom glass icons (370×731, bottom=48) ── */}
+@@ -326,7 +371,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
+           }}>
+             {String.fromCodePoint(0x1003A1)}
+           </span>
+-          <img src="/icons/time.svg" alt="" style={{ width: 154, height: 225 }} draggable={false} className="select-none pointer-events-none" />
++          <img src={publicAsset('icons/time.svg')} alt="" style={{ width: 154, height: 225 }} draggable={false} className="select-none pointer-events-none" />
+         </div>
+ 
+         {/* Bottom glass icons — flush with bottom of 731px div */}
+@@ -358,9 +403,10 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
+ 
+       {/* ── Dock: visible when unlocked, slides up from below ── */}
+       {lgFailed ? (
+-        /* Mobile: split transform from backdrop-filter so Safari keeps blur live */
++        /* Mobile Safari: render the live glass background ourselves.
++           Native backdrop-filter can freeze when the backdrop is a transformed layer. */
+         <motion.div
+-          className="absolute left-0 right-0 bottom-0 z-20"
++          className="absolute bottom-[17px] left-[17px] right-[17px] z-20"
+           animate={{ opacity: isLocked ? 0 : 1, y: isLocked ? 40 : 0 }}
+           transition={{
+             y: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
+@@ -368,23 +414,17 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
+           }}
+           style={{ pointerEvents: isLocked ? 'none' : 'auto' }}
+         >
+-          <div className="flex flex-row items-center justify-center"
+-            style={{ padding: '20px 17px 17px 17px' }}>
+-            <div className="flex-1 flex flex-row items-center justify-between relative"
+-              style={{
+-                background: 'rgba(255, 255, 255, 0.20)',
+-                borderRadius: 38, padding: '0px 19px', height: 103,
+-                backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+-                boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
+-              }}>
+-              {[0, 1, 2, 3].map(i => (
+-                <div key={i}
+-                  onClick={i === 0 ? lockScreen : i === 3 ? onOpenApp : undefined}
+-                  className={i === 0 || i === 3 ? 'cursor-pointer active:scale-90 transition-transform' : ''}>
+-                  <AppIcon label={`应用${13 + i}`} />
+-                </div>
+-              ))}
+-            </div>
++          <div
++            className="relative overflow-hidden"
++            style={{
++              borderRadius: 38,
++              height: DOCK_HEIGHT,
++              padding: '0px 19px',
++              isolation: 'isolate',
++            }}
++          >
++            <MobileDockGlass wallX={wallSpring} />
++            <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
+           </div>
+         </motion.div>
+       ) : (
+diff --git a/src/components/LoadingCard.tsx b/src/components/LoadingCard.tsx
+index 4cd6a12..79e8e4d 100644
+--- a/src/components/LoadingCard.tsx
++++ b/src/components/LoadingCard.tsx
+@@ -1,3 +1,4 @@
++import { publicAsset } from '../utils/assets'
+ import { motion } from 'framer-motion'
+ import type { AppState } from '../hooks/useAppState'
+ 
+@@ -55,7 +56,7 @@ export default function LoadingCard({ state, onClose }: LoadingCardProps) {
+             {/* Loading video — inverted + cropped + scaled from mine/loading.mp4 */}
+             <div className="w-[200px] h-[200px] relative flex items-center justify-center">
+               <video
+-                src="/videos/loading.webm"
++                src={publicAsset('videos/loading.webm')}
+                 autoPlay
+                 loop
+                 muted
+diff --git a/src/components/NavBar.tsx b/src/components/NavBar.tsx
+index bf0d65a..e1b8d6d 100644
+--- a/src/components/NavBar.tsx
++++ b/src/components/NavBar.tsx
+@@ -1,3 +1,4 @@
++import { publicAsset } from '../utils/assets'
+ const SF = {
+   ellipsis: String.fromCodePoint(0x100360),
+ }
+@@ -17,7 +18,7 @@ export default function NavBar({ onHome }: NavBarProps) {
+           onClick={onHome}
+           className="w-[44px] h-[44px] bg-white rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover-darken active:scale-95 transition-transform cursor-pointer"
+         >
+-          <img src="/icons/home.svg" alt="" className="w-5 h-[18px]" />
++          <img src={publicAsset('icons/home.svg')} alt="" className="w-5 h-[18px]" />
+         </button>
+       </div>
+ 
+diff --git a/src/utils/assets.ts b/src/utils/assets.ts
+new file mode 100644
+index 0000000..7d355d4
+--- /dev/null
++++ b/src/utils/assets.ts
+@@ -0,0 +1,3 @@
++export function publicAsset(path: string) {
++  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
++}

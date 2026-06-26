@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/assets'
 const SF = {
   ellipsis: String.fromCodePoint(0x100360),
 }
@@ -17,7 +18,7 @@ export default function NavBar({ onHome }: NavBarProps) {
           onClick={onHome}
           className="w-[44px] h-[44px] bg-white rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.08)] hover-darken active:scale-95 transition-transform cursor-pointer"
         >
-          <img src="/icons/home.svg" alt="" className="w-5 h-[18px]" />
+          <img src={publicAsset('icons/home.svg')} alt="" className="w-5 h-[18px]" />
         </button>
       </div>
 

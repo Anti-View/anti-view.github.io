@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/assets'
 import { motion } from 'framer-motion'
 import type { AppState } from '../hooks/useAppState'
 
@@ -55,7 +56,7 @@ export default function LoadingCard({ state, onClose }: LoadingCardProps) {
             {/* Loading video — inverted + cropped + scaled from mine/loading.mp4 */}
             <div className="w-[200px] h-[200px] relative flex items-center justify-center">
               <video
-                src="/videos/loading.webm"
+                src={publicAsset('videos/loading.webm')}
                 autoPlay
                 loop
                 muted
