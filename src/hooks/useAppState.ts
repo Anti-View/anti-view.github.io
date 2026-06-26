@@ -7,7 +7,7 @@ export function useAppState() {
   const currentRef = useRef<AppState>('idle')
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const transitioning = useRef(false)
-  const loadingTimer = useRef<ReturnType<typeof setTimeout>>()
+  const loadingTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   // Keep ref in sync with state
   useEffect(() => { currentRef.current = current }, [current])
