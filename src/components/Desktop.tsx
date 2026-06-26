@@ -168,10 +168,13 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
   useEffect(() => { ckRef.current?.auto() }, [unlockedPage])
 
   const lgRef = useRef<any>(null)
-  const [lgFailed, setLgFailed] = useState(false)
+  const [lgFailed, setLgFailed] = useState(() =>
+    typeof window !== 'undefined' && 'ontouchstart' in window,
+  )
 
-  /* ── LiquidGlass init ── */
+  /* ── LiquidGlass init (desktop only) ── */
   useEffect(() => {
+    if (lgFailed) return
     let instance: any = null
     let cancelled = false
     const init = async () => {
@@ -354,29 +357,57 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
       </motion.div>
 
       {/* ── Dock: visible when unlocked, slides up from below ── */}
-      <motion.div
-        className="absolute bottom-[17px] left-[17px] right-[17px] z-20"
-        {...(lgFailed ? {} : { 'data-glass': 'dock' })}
-        animate={{ opacity: isLocked ? 0 : 1, y: isLocked ? 40 : 0 }}
-        transition={{
-          y: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
-          opacity: { duration: 0.15, delay: isLocked ? 0 : 0.12 },
-        }}
-        style={{
-          pointerEvents: isLocked ? 'none' : 'auto',
-          background: 'rgba(255, 255, 255, 0.20)',
-          borderRadius: 38,
-          height: 103,
-          padding: '0px 19px',
-          ...(lgFailed ? {
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
-          } : {}),
-        }}
-      >
-        <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
-      </motion.div>
+      {lgFailed ? (
+        /* Mobile: split transform from backdrop-filter so Safari keeps blur live */
+        <motion.div
+          className="absolute left-0 right-0 bottom-0 z-20"
+          animate={{ opacity: isLocked ? 0 : 1, y: isLocked ? 40 : 0 }}
+          transition={{
+            y: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
+            opacity: { duration: 0.15, delay: isLocked ? 0 : 0.12 },
+          }}
+          style={{ pointerEvents: isLocked ? 'none' : 'auto' }}
+        >
+          <div className="flex flex-row items-center justify-center"
+            style={{ padding: '20px 17px 17px 17px' }}>
+            <div className="flex-1 flex flex-row items-center justify-between relative"
+              style={{
+                background: 'rgba(255, 255, 255, 0.20)',
+                borderRadius: 38, padding: '0px 19px', height: 103,
+                backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
+                boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
+              }}>
+              {[0, 1, 2, 3].map(i => (
+                <div key={i}
+                  onClick={i === 0 ? lockScreen : i === 3 ? onOpenApp : undefined}
+                  className={i === 0 || i === 3 ? 'cursor-pointer active:scale-90 transition-transform' : ''}>
+                  <AppIcon label={`应用${13 + i}`} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        /* Desktop: LiquidGlass, glass on same element as animation */
+        <motion.div
+          className="absolute bottom-[17px] left-[17px] right-[17px] z-20"
+          data-glass="dock"
+          animate={{ opacity: isLocked ? 0 : 1, y: isLocked ? 40 : 0 }}
+          transition={{
+            y: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
+            opacity: { duration: 0.15, delay: isLocked ? 0 : 0.12 },
+          }}
+          style={{
+            pointerEvents: isLocked ? 'none' : 'auto',
+            background: 'rgba(255, 255, 255, 0.20)',
+            borderRadius: 38,
+            height: 103,
+            padding: '0px 19px',
+          }}
+        >
+          <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
+        </motion.div>
+      )}
     </div>
   )
 }
