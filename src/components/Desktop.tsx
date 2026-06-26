@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, memo } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, animate } from 'framer-motion'
 import CornerKit from '@cornerkit/core'
 import { publicAsset } from '../utils/assets'
 
@@ -11,6 +11,7 @@ const DOCK_LEFT = 17
 const DOCK_BOTTOM = 17
 const DOCK_HEIGHT = 103
 const DOCK_TOP = PHONE_HEIGHT - DOCK_BOTTOM - DOCK_HEIGHT
+const DOCK_BLUR_PAD = 28
 
 
 function AppIcon({ label }: { label?: string }) {
@@ -53,37 +54,34 @@ function Dock({ onOpenApp, onLock }: { onOpenApp?: () => void; onLock?: () => vo
   )
 }
 
-const MobileDockGlass = memo(function MobileDockGlass({ wallX }: { wallX: any }) {
+const MobileDockGlass = memo(function MobileDockGlass({
+  bgPosition,
+}: {
+  bgPosition: any
+}) {
   return (
     <>
-      <motion.img
-        src={publicAsset('img/new_wallpaper.jpg')}
-        alt=""
-        aria-hidden="true"
-        className="absolute pointer-events-none select-none"
+      <motion.div
+        className="absolute pointer-events-none"
         style={{
-          left: -DOCK_LEFT,
-          top: -DOCK_TOP,
-          width: WALLPAPER_WIDTH,
-          height: PHONE_HEIGHT,
-          maxWidth: 'none',
-          x: wallX,
-          filter: 'blur(16px) saturate(1.35)',
-          transformOrigin: '0 0',
-          willChange: 'transform',
+          left: -DOCK_BLUR_PAD,
+          right: -DOCK_BLUR_PAD,
+          top: -DOCK_BLUR_PAD,
+          bottom: -DOCK_BLUR_PAD,
+          backgroundImage: `url(${publicAsset('img/new_wallpaper_blur.jpg')})`,
+          backgroundSize: `${WALLPAPER_WIDTH}px ${PHONE_HEIGHT}px`,
+          backgroundPosition: bgPosition,
+          backgroundRepeat: 'no-repeat',
+          transform: 'translateZ(0) scale(1.02)',
+          transformOrigin: 'center',
+          willChange: 'background-position',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
         }}
-        draggable={false}
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'rgba(255, 255, 255, 0.20)' }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          borderRadius: 38,
-          boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
-        }}
       />
     </>
   )
@@ -193,6 +191,12 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
   const pageX = useMotionValue(0)
   const wallX = useMotionValue(0)
   const wallSpring = useSpring(wallX, { stiffness: 200, damping: 30, mass: 0.5 })
+
+  const dockBgX = useTransform(
+    wallSpring,
+    (v) => `${v - DOCK_LEFT + DOCK_BLUR_PAD}px`,
+  )
+  const dockBgPosition = useMotionTemplate`${dockBgX} ${-DOCK_TOP + DOCK_BLUR_PAD}px`
 
   // iOS-like nonlinear opacity: barely fades in first 40%, drops fast near threshold
   const unlockOpacity = useTransform(unlockY,
@@ -335,14 +339,13 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
           x: wallSpring,
         }}
       >
-        {/* Floor shadow — 170×12 ellipse, blurred */}
+        {/* Floor shadow — radial gradient, no CSS filter */}
         <div
           className="absolute"
           style={{
-            left: 55, bottom: 0, width: 170, height: 12,
-            background: '#C2976C',
+            left: 45, bottom: -4, width: 190, height: 24,
+            background: 'radial-gradient(ellipse at center, rgba(194, 151, 108, 0.72) 0%, rgba(194, 151, 108, 0.34) 45%, rgba(194, 151, 108, 0) 72%)',
             borderRadius: '50%',
-            filter: 'blur(12px)',
           }}
         />
         <img src={publicAsset('videos/character.gif')} alt="" className="w-full h-full object-contain relative" draggable={false} style={{ position: 'relative', zIndex: 1 }} />
@@ -415,16 +418,40 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
           style={{ pointerEvents: isLocked ? 'none' : 'auto' }}
         >
           <div
-            className="relative overflow-hidden"
+            className="relative"
             style={{
               borderRadius: 38,
               height: DOCK_HEIGHT,
               padding: '0px 19px',
               isolation: 'isolate',
+              transform: 'translateZ(0)',
+              WebkitTransform: 'translateZ(0)',
             }}
           >
-            <MobileDockGlass wallX={wallSpring} />
-            <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
+            <div
+              className="absolute inset-0 overflow-hidden pointer-events-none"
+              style={{ borderRadius: 38, zIndex: 0 }}
+            >
+              <MobileDockGlass bgPosition={dockBgPosition} />
+            </div>
+
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                borderRadius: 38,
+                zIndex: 1,
+                boxShadow: [
+                  'inset 1px 1px 2px rgba(255, 255, 255, 0.95)',
+                  'inset -0.5px -0.5px 1px rgba(255, 255, 255, 0.75)',
+                  '0 0 10px rgba(255, 255, 255, 0.30)',
+                  '0 8px 24px rgba(255, 255, 255, 0.14)',
+                ].join(', '),
+              }}
+            />
+
+            <div className="absolute inset-0" style={{ zIndex: 2 }}>
+              <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
+            </div>
           </div>
         </motion.div>
       ) : (
