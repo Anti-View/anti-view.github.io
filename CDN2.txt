@@ -1,0 +1,143 @@
+What is Liquid Glass?
+Liquid Glass is a lightweight JavaScript/TypeScript library that applies realistic glass refraction, blur, chromatic aberration, and lighting effects to any HTML element using WebGL shaders. It captures the DOM content behind each glass element, processes it through a multi-pass rendering pipeline, and composites the result in real time.
+
+The library handles layered compositing (glass-on-glass), dynamic content updates, draggable floating panels, responsive resizing, and works with any background — images, videos, canvases, or plain HTML.
+
+Getting Started
+Install via npm:
+
+npm install @ybouane/liquidglass
+Or skip the install and import directly from a CDN:
+
+import { LiquidGlass } from 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass/dist/index.js';
+Basic usage:
+
+import { LiquidGlass } from '@ybouane/liquidglass';
+
+const instance = await LiquidGlass.init({
+    root: document.querySelector('#my-root'),
+    glassElements: document.querySelectorAll('.glass'),
+});
+
+// Later:
+instance.destroy();
+The root element must be a positioned container (position: relative) and each glass element must be a direct child of the root. Each glass element gets a child <canvas> injected automatically for the shader output.
+
+Interactive Playground
+Adjust the sliders to see how each parameter affects the glass effect in real time. Drag the glass panel to move it around.
+
+Blur Amount
+
+0.25
+Refraction
+
+0.69
+Chrom. Aberration
+
+0.05
+Edge Highlight
+
+0.05
+Specular
+
+0
+Fresnel
+
+1
+Distortion
+
+0
+Corner Radius
+
+40
+Z-Radius
+
+40
+Opacity
+
+1
+Saturation
+
+0
+Brightness
+
+0
+Shadow Opacity
+
+0.3
+Shadow Spread
+
+10
+Bevel Mode
+
+0
+Configuration Options
+Each glass element can be configured individually via data-config (JSON) or globally via the defaults option:
+
+Option	Type	Default	Description
+blurAmount	number	0	Background blur strength (0 = sharp, 1 = maximum blur)
+refraction	number	0.69	How much the glass bends light
+chromAberration	number	0.05	Color fringing at edges
+edgeHighlight	number	0.05	Inner glow / rim lighting
+specular	number	0	Specular highlight (Blinn-Phong)
+fresnel	number	1	Fresnel reflection at grazing angles
+cornerRadius	number	65	Corner radius in CSS px
+zRadius	number	40	Bevel depth (curvature)
+brightness	number	0	Brightness adjustment (-0.5 to 0.5)
+saturation	number	0	Saturation (-1 to 1)
+shadowOpacity	number	0.3	Drop shadow opacity
+floating	boolean	false	Enable drag-to-move
+button	boolean	false	Button mode (hover/press shader feedback)
+bevelMode	number	0	0 = biconvex pill, 1 = dome (flat bottom)
+Frosted Panel
+element.dataset.config = JSON.stringify({
+    blurAmount: 0.25,
+    cornerRadius: 30,
+});
+Dark Glass
+element.dataset.config = JSON.stringify({
+    brightness: -0.3,
+    blurAmount: 0.25,
+    cornerRadius: 50,
+});
+Button Mode
+Set button: true to make a glass element react to hover and press: hovering brightens it, pressing flattens the bevel and deepens the shadow. Try the button below:
+
+element.dataset.config = JSON.stringify({
+    button: true,
+    cornerRadius: 24,
+});
+Dome Bevel (Magnifier)
+Set bevelMode: 1 with equal cornerRadius and zRadius for a half-sphere lens effect. Try dragging the dome below:
+
+element.dataset.config = JSON.stringify({
+    bevelMode: 1,
+    cornerRadius: 50,
+    zRadius: 50,
+    floating: true,
+    blurAmount: 0,
+    refraction: 1.2,
+});
+Limitations & Gotchas
+The library leans on real-time DOM rasterisation and a multi-pass WebGL pipeline. That comes with a handful of constraints worth knowing before you wire it into a production page.
+
+Structural
+Glass elements must be direct children of the root. Nested glass is rejected at init with a console warning. If you need glass inside a wrapper, give the wrapper its own LiquidGlass.init() call.
+The root itself is never captured. The shader samples the root's children, so any background image, padding, or border on the root is invisible to the glass effect. Put backgrounds in a sibling element inside the root (e.g. an absolutely positioned <img>).
+A <canvas> is injected as the glass element's first child for shader output. Avoid :first-child selectors on glass elements.
+Multiple LiquidGlass roots cannot share refraction. A glass element in one root cannot see what another root's glass elements are rendering — they each have their own compositing canvas.
+Performance
+Capturing DOM into a canvas is expensive. Every non-glass wrapper is rasterised via html-to-image (style inlining + SVG-foreignObject decode). Keep wrappers small and shallow.
+data-dynamic elements are treated as always dirty by definition. Use it only for content that genuinely changes every frame — animations, counters, charts. For one-shot updates, prefer instance.markChanged() instead — it costs nothing on idle frames.
+Each LiquidGlass instance opens its own WebGL context. Browsers cap concurrent contexts (typically 16 system-wide); don't spawn dozens.
+Window resize re-captures everything. Don't drive layout in a tight resize loop.
+Text & fonts
+Webfonts must be loaded before init() and served with CORS-friendly headers. Google Fonts, jsdelivr, and unpkg work out of the box. Call invalidateFontEmbedCache() then re-init if you load fonts dynamically.
+Cross-origin <img> elements need crossorigin="anonymous". Tainted canvases break texture upload and disable the glass effect for the entire root.
+API
+LiquidGlass.init() is async — it resolves only after font CSS prefetch, glass content pre-capture, and static-content pre-warm have all completed. On a slow connection that can be 100–500 ms.
+data-dynamic only catches direct children of the root. A live element nested inside a wrapper that lacks data-dynamic will not trigger re-captures.
+The library auto-detects <video> elements as dynamic — you don't need to add data-dynamic to them.
+instance.markChanged(element) — call after updating something the library can't observe on its own (a <canvas> you just painted, an <img> you swapped, a CSS property you toggled). Only glasses overlapping that element re-render. Call with no argument to invalidate everything.
+invalidateFontEmbedCache() — call after dynamically loading new font stylesheets so the next init() rebuilds the embedded font cache.
+Made with ❤️ in 🇨🇦 by @ybouane

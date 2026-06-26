@@ -31,23 +31,15 @@ function WidgetLabel({ label }: { label: string }) {
 
 function Dock({ onOpenApp, onLock }: { onOpenApp?: () => void; onLock?: () => void }) {
   return (
-    <div className="flex flex-row items-center justify-center"
-      style={{ padding: '20px 17px 17px 17px' }}>
-      <div className="flex-1 flex flex-row items-center justify-between relative"
-        style={{
-          background: 'rgba(255, 255, 255, 0.20)',
-          borderRadius: 38, padding: '0px 19px', height: 103,
-          backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-          boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
-        }}>
-        {[0, 1, 2, 3].map(i => (
-          <div key={i}
-            onClick={i === 0 ? onLock : i === 3 ? onOpenApp : undefined}
-            className={i === 0 || i === 3 ? 'cursor-pointer active:scale-90 transition-transform' : ''}>
-            <AppIcon label={`应用${13 + i}`} />
-          </div>
-        ))}
-      </div>
+    <div className="absolute inset-0 flex flex-row items-center justify-between"
+      style={{ padding: '0px 19px' }}>
+      {[0, 1, 2, 3].map(i => (
+        <div key={i}
+          onClick={i === 0 ? onLock : i === 3 ? onOpenApp : undefined}
+          className={i === 0 || i === 3 ? 'cursor-pointer active:scale-90 transition-transform' : ''}>
+          <AppIcon label={`应用${13 + i}`} />
+        </div>
+      ))}
     </div>
   )
 }
@@ -175,9 +167,56 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
 
   useEffect(() => { ckRef.current?.auto() }, [unlockedPage])
 
+  const lgRef = useRef<any>(null)
+  const [lgFailed, setLgFailed] = useState(false)
+
+  /* ── LiquidGlass init ── */
+  useEffect(() => {
+    let instance: any = null
+    let cancelled = false
+    const init = async () => {
+      try {
+        const mod: any = await (async () => {
+          const src = 'https://cdn.jsdelivr.net/npm/@ybouane/liquidglass@1.0.3/dist/index.js'
+          return import(/* @vite-ignore */ src)
+        })()
+        if (cancelled || !mod.LiquidGlass) return
+        const glassEl = document.querySelector('[data-glass="dock"]') as HTMLElement | null
+        if (!glassEl) return
+        glassEl.dataset.config = JSON.stringify({
+          blurAmount: 0.05,
+          refraction: 0.5,
+          chromAberration: 0.05,
+          edgeHighlight: 0.15,
+          specular: 0,
+          fresnel: 1,
+          distortion: 0,
+          cornerRadius: 40,
+          zRadius: 40,
+          opacity: 1,
+          saturation: 0,
+          brightness: 0,
+          shadowOpacity: 0,
+          shadowSpread: 10,
+          bevelMode: 0,
+        })
+        instance = await mod.LiquidGlass.init({
+          root: document.querySelector('#liquid-root'),
+          glassElements: [glassEl],
+        })
+        lgRef.current = instance
+      } catch (e) {
+        console.warn('LiquidGlass init failed, using CSS fallback:', e)
+        setLgFailed(true)
+      }
+    }
+    init()
+    return () => { cancelled = true; instance?.destroy() }
+  }, [])
+
   /* ── Lock screen: vertical drag, wallpaper stays at A segment until unlock ── */
   const handleUnlockDrag = (_: any, _info: { offset: { y: number } }) => {
-    // wallpaper stays still during drag — moves only after unlock triggers
+    lgRef.current?.markChanged()
   }
 
   const handleUnlockDragEnd = (_: any, info: { offset: { y: number } }) => {
@@ -186,6 +225,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
       animate(unlockY, -874, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
       setIsLocked(false)
       setUnlockedPage(0)
+      lgRef.current?.markChanged()
     } else {
       // ── Snap back ──
       animate(unlockY, 0, { type: 'spring', stiffness: 400, damping: 30, mass: 0.8 })
@@ -198,6 +238,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     const startWallX = -unlockedPage * 402
     const raw = startWallX + info.offset.x
     wallX.set(Math.max(-804, Math.min(0, raw)))
+    lgRef.current?.markChanged()
   }
 
   const handlePageDragEnd = (_: any, info: { offset: { x: number } }) => {
@@ -207,7 +248,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     else if (info.offset.x > threshold && unlockedPage > 0) target = unlockedPage - 1
     setUnlockedPage(target)
     animate(pageX, -target * 402, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
-    animate(wallX, -target * 402, { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 })
+    animate(wallX, -target * 402, { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 }).then(() => lgRef.current?.markChanged())
   }
 
   /* ── Return to lock screen (dock first icon) ── */
@@ -221,16 +262,18 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     lockFade.set(0)
     animate(unlockY, 0, { type: 'spring', stiffness: 250, damping: 25, mass: 1 })
     animate(lockFade, 1, { duration: 0.75, ease: 'easeOut' })
+    lgRef.current?.markChanged()
   }
 
   const SF = "'SF Pro Display', 'SF Pro', -apple-system"
 
   return (
-    <div className="absolute inset-0 z-50 overflow-hidden bg-black">
+    <div id="liquid-root" className="absolute inset-0 z-50 overflow-hidden bg-black">
       {/* ── Wallpaper (single, always rendered, spring-smoothed) ── */}
       <motion.img
         src="/img/new_wallpaper.jpg"
         alt=""
+        data-dynamic=""
         className="absolute left-0 top-0 pointer-events-none select-none"
         style={{ width: 1206, height: 874, maxWidth: 'none', x: wallSpring }}
         draggable={false}
@@ -312,13 +355,25 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
 
       {/* ── Dock: visible when unlocked, slides up from below ── */}
       <motion.div
-        className="absolute left-0 right-0 bottom-0 z-20"
+        className="absolute bottom-[17px] left-[17px] right-[17px] z-20"
+        {...(lgFailed ? {} : { 'data-glass': 'dock' })}
         animate={{ opacity: isLocked ? 0 : 1, y: isLocked ? 40 : 0 }}
         transition={{
           y: { type: 'spring', stiffness: 300, damping: 28, mass: 1 },
           opacity: { duration: 0.15, delay: isLocked ? 0 : 0.12 },
         }}
-        style={{ pointerEvents: isLocked ? 'none' : 'auto' }}
+        style={{
+          pointerEvents: isLocked ? 'none' : 'auto',
+          background: 'rgba(255, 255, 255, 0.20)',
+          borderRadius: 38,
+          height: 103,
+          padding: '0px 19px',
+          ...(lgFailed ? {
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
+          } : {}),
+        }}
       >
         <Dock onOpenApp={onOpenApp} onLock={lockScreen} />
       </motion.div>
