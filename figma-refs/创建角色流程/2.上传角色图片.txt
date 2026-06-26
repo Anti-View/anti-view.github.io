@@ -1,0 +1,201 @@
+<div style="width: 100%; height: 100%; position: relative; background: white; overflow: hidden">
+    <div style="width: 402px; padding-top: 21px; padding-bottom: 19px; padding-left: 24px; padding-right: 24px; left: 0px; top: 0px; position: absolute; justify-content: center; align-items: center; gap: 154px; display: inline-flex">
+        <div style="flex: 1 1 0; height: 22px; padding-top: 1.50px; justify-content: center; align-items: center; gap: 10px; display: flex">
+            <div style="text-align: center; color: var(--Grays-Black, black); font-size: 17px; font-family: SF Pro; font-weight: 590; line-height: 22px; word-wrap: break-word">9:41</div>
+        </div>
+        <div style="flex: 1 1 0; height: 22px; padding-top: 1px; padding-right: 1px; justify-content: center; align-items: center; gap: 7px; display: flex">
+            <div data-svg-wrapper>
+                <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2 1.14623C19.2 0.513183 18.7224 0 18.1333 0H17.0667C16.4776 0 16 0.513183 16 1.14623V11.0802C16 11.7132 16.4776 12.2264 17.0667 12.2264H18.1333C18.7224 12.2264 19.2 11.7132 19.2 11.0802V1.14623ZM11.7659 2.44528H12.8326C13.4217 2.44528 13.8992 2.97078 13.8992 3.61902V11.0527C13.8992 11.7009 13.4217 12.2264 12.8326 12.2264H11.7659C11.1768 12.2264 10.6992 11.7009 10.6992 11.0527V3.61902C10.6992 2.97078 11.1768 2.44528 11.7659 2.44528ZM7.43411 5.09433H6.36745C5.77834 5.09433 5.30078 5.62652 5.30078 6.28301V11.0377C5.30078 11.6942 5.77834 12.2264 6.36745 12.2264H7.43411C8.02322 12.2264 8.50078 11.6942 8.50078 11.0377V6.28301C8.50078 5.62652 8.02322 5.09433 7.43411 5.09433ZM2.13333 7.53962H1.06667C0.477563 7.53962 0 8.06421 0 8.71132V11.0547C0 11.7018 0.477563 12.2264 1.06667 12.2264H2.13333C2.72244 12.2264 3.2 11.7018 3.2 11.0547V8.71132C3.2 8.06421 2.72244 7.53962 2.13333 7.53962Z" fill="var(--Grays-Black, black)"/>
+                </svg>
+            </div>
+            <div data-svg-wrapper>
+                <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5713 2.46628C11.0584 2.46639 13.4504 3.38847 15.2529 5.04195C15.3887 5.1696 15.6056 5.16799 15.7393 5.03834L17.0368 3.77487C17.1045 3.70911 17.1422 3.62004 17.1417 3.52735C17.1411 3.43467 17.1023 3.34603 17.0338 3.28104C12.3028 -1.09368 4.83907 -1.09368 0.108056 3.28104C0.039524 3.34598 0.000639766 3.4346 7.82398e-06 3.52728C-0.000624118 3.61996 0.0370483 3.70906 0.104689 3.77487L1.40255 5.03834C1.53615 5.16819 1.75327 5.1698 1.88893 5.04195C3.69167 3.38836 6.08395 2.46628 8.5713 2.46628ZM8.56795 6.68656C9.92527 6.68647 11.2341 7.19821 12.2403 8.12234C12.3763 8.2535 12.5907 8.25065 12.7234 8.11593L14.0106 6.79663C14.0784 6.72742 14.1161 6.63355 14.1151 6.536C14.1141 6.43844 14.0746 6.34536 14.0054 6.27757C10.9416 3.38672 6.19688 3.38672 3.13305 6.27757C3.06384 6.34536 3.02435 6.43849 3.02345 6.53607C3.02254 6.63366 3.06028 6.72752 3.12822 6.79663L4.41513 8.11593C4.54778 8.25065 4.76215 8.2535 4.89823 8.12234C5.90368 7.19882 7.21152 6.68713 8.56795 6.68656ZM11.0924 9.48011C11.0943 9.58546 11.0572 9.68703 10.9899 9.76084L8.81327 12.2156C8.74946 12.2877 8.66247 12.3283 8.5717 12.3283C8.48093 12.3283 8.39394 12.2877 8.33013 12.2156L6.1531 9.76084C6.08585 9.68697 6.04886 9.58537 6.05085 9.48002C6.05284 9.37467 6.09365 9.27491 6.16364 9.20429C7.55374 7.8904 9.58966 7.8904 10.9798 9.20429C11.0497 9.27497 11.0904 9.37476 11.0924 9.48011Z" fill="var(--Grays-Black, black)"/>
+                </svg>
+            </div>
+            <div data-svg-wrapper style="position: relative">
+                <svg width="28" height="13" viewBox="0 0 28 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect opacity="0.35" x="0.5" y="0.5" width="24" height="12" rx="3.8" stroke="var(--Grays-Black, black)"/>
+                <path opacity="0.4" d="M26 4.5V8.57547C26.8047 8.2303 27.328 7.42734 27.328 6.53774C27.328 5.64813 26.8047 4.84517 26 4.5Z" fill="var(--Grays-Black, black)"/>
+                <rect x="2" y="2" width="21" height="9" rx="2.5" fill="var(--Grays-Black, black)"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div style="width: 162px; left: 16px; top: 122px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+        <div style="align-self: stretch; color: black; font-size: 28px; font-family: PingFang SC; font-weight: 600; word-wrap: break-word">主题名称</div>
+        <div style="align-self: stretch; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+            <div style="color: rgba(0, 0, 0, 0.50); font-size: 15px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">150.73MB | 耗电等级</div>
+            <div style="width: 16px; height: 16px; background: #63CC2B; border-radius: 100px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                <div style="color: white; font-size: 12px; font-family: PingFang SC; font-weight: 500; word-wrap: break-word">1</div>
+            </div>
+        </div>
+    </div>
+    <div style="left: 16px; top: 678px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: inline-flex">
+        <div style="align-self: stretch; color: black; font-size: 17px; font-family: PingFang SC; font-weight: 500; word-wrap: break-word">内容简介</div>
+        <div style="width: 370px; color: rgba(0, 0, 0, 0.80); font-size: 14px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">HarmonyOS 6.1 及以上版本适用<br/>萌主全新升级，互动焕新登场！为萌主换上专属套装，一起闯入奇妙小世界</div>
+    </div>
+    <div style="left: 16px; top: 206px; position: absolute; justify-content: flex-start; align-items: center; gap: 8px; display: inline-flex">
+        <div style="padding-left: 12px; padding-right: 12px; padding-top: 4px; padding-bottom: 4px; background: rgba(0, 0, 0, 0.05); border-radius: 100px; justify-content: center; align-items: center; gap: 10px; display: flex">
+            <div style="color: rgba(0, 0, 0, 0.50); font-size: 14px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">趣味</div>
+        </div>
+        <div style="padding-left: 12px; padding-right: 12px; padding-top: 4px; padding-bottom: 4px; background: rgba(0, 0, 0, 0.05); border-radius: 100px; justify-content: center; align-items: center; gap: 10px; display: flex">
+            <div style="color: rgba(0, 0, 0, 0.50); font-size: 14px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">个性</div>
+        </div>
+        <div style="padding-left: 12px; padding-right: 12px; padding-top: 4px; padding-bottom: 4px; background: rgba(0, 0, 0, 0.05); border-radius: 100px; justify-content: center; align-items: center; gap: 10px; display: flex">
+            <div style="color: rgba(0, 0, 0, 0.50); font-size: 14px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">3D</div>
+        </div>
+    </div>
+    <div style="width: 402px; padding-left: 16px; padding-right: 16px; left: 0px; top: 62px; position: absolute; justify-content: space-between; align-items: center; display: inline-flex">
+        <div style="justify-content: flex-start; align-items: center; gap: 10px; display: flex">
+            <div data-type="Back" style="height: 44px; min-width: 44px; padding-left: 2px; padding-right: 2px; position: relative; background: white; background-blend-mode: multiply; border-radius: 296px; justify-content: center; align-items: center; gap: 12px; display: flex">
+                <div data-mode="Light" data-state="Default" style="width: 44px; height: 44px; left: 0px; top: 0px; position: absolute">
+                    <div data-svg-wrapper style="left: 0px; top: 0px; position: absolute">
+                        <svg width="100" height="124" viewBox="0 0 100 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_287_1056)">
+                        <path d="M16 54C16 41.8497 25.8497 32 38 32C50.1503 32 60 41.8497 60 54C60 66.1503 50.1503 76 38 76C25.8497 76 16 66.1503 16 54Z" fill="white" fill-opacity="0.65" shape-rendering="crispEdges"/>
+                        <path d="M16 54C16 41.8497 25.8497 32 38 32C50.1503 32 60 41.8497 60 54C60 66.1503 50.1503 76 38 76C25.8497 76 16 66.1503 16 54Z" fill="#DDDDDD" style="mix-blend-mode:color-burn" shape-rendering="crispEdges"/>
+                        <path d="M16 54C16 41.8497 25.8497 32 38 32C50.1503 32 60 41.8497 60 54C60 66.1503 50.1503 76 38 76C25.8497 76 16 66.1503 16 54Z" fill="#F7F7F7" style="mix-blend-mode:darken" shape-rendering="crispEdges"/>
+                        </g>
+                        <defs>
+                        <filter id="filter0_d_287_1056" x="-24" y="0" width="124" height="124" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="8"/>
+                        <feGaussianBlur stdDeviation="20"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_287_1056"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_287_1056" result="shape"/>
+                        </filter>
+                        </defs>
+                        </svg>
+                    </div>
+                    <div data-svg-wrapper style="left: 0px; top: 0px; position: absolute">
+                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 22C0 9.84974 9.84974 0 22 0C34.1503 0 44 9.84974 44 22C44 34.1503 34.1503 44 22 44C9.84974 44 0 34.1503 0 22Z" fill="black" fill-opacity="0.01"/>
+                        </svg>
+                    </div>
+                </div>
+                <div data-mode="Light" data-show-label="false" data-state="Default" style="height: 36px; min-width: 36px; padding-left: 8px; padding-right: 8px; border-radius: 100px; justify-content: center; align-items: center; gap: 2px; display: flex">
+                    <div style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Labels---Vibrant---Controls-Primary, #1A1A1A); font-size: 17px; font-family: SF Pro; font-weight: 510; word-wrap: break-word">􀯶</div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 8px; align-self: stretch; position: relative"></div>
+        <div style="justify-content: flex-end; align-items: center; gap: 10px; display: flex">
+            <div data-type="1 Symbol" style="height: 44px; padding-left: 4px; padding-right: 4px; position: relative; background: white; background-blend-mode: multiply; border-radius: 296px; justify-content: flex-start; align-items: center; gap: 20px; display: flex">
+                <div data-mode="Light" data-state="Default" style="width: 44px; height: 44px; left: 0px; top: 0px; position: absolute">
+                    <div data-svg-wrapper style="left: 0px; top: 0px; position: absolute">
+                        <svg width="100" height="124" viewBox="0 0 100 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_287_1062)">
+                        <path d="M40 54C40 41.8497 49.8497 32 62 32C74.1503 32 84 41.8497 84 54C84 66.1503 74.1503 76 62 76C49.8497 76 40 66.1503 40 54Z" fill="white" fill-opacity="0.65" shape-rendering="crispEdges"/>
+                        <path d="M40 54C40 41.8497 49.8497 32 62 32C74.1503 32 84 41.8497 84 54C84 66.1503 74.1503 76 62 76C49.8497 76 40 66.1503 40 54Z" fill="#DDDDDD" style="mix-blend-mode:color-burn" shape-rendering="crispEdges"/>
+                        <path d="M40 54C40 41.8497 49.8497 32 62 32C74.1503 32 84 41.8497 84 54C84 66.1503 74.1503 76 62 76C49.8497 76 40 66.1503 40 54Z" fill="#F7F7F7" style="mix-blend-mode:darken" shape-rendering="crispEdges"/>
+                        </g>
+                        <defs>
+                        <filter id="filter0_d_287_1062" x="0" y="0" width="124" height="124" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="8"/>
+                        <feGaussianBlur stdDeviation="20"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_287_1062"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_287_1062" result="shape"/>
+                        </filter>
+                        </defs>
+                        </svg>
+                    </div>
+                    <div data-svg-wrapper style="left: 0px; top: 0px; position: absolute">
+                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 22C0 9.84974 9.84974 0 22 0C34.1503 0 44 9.84974 44 22C44 34.1503 34.1503 44 22 44C9.84974 44 0 34.1503 0 22Z" fill="black" fill-opacity="0.01"/>
+                        </svg>
+                    </div>
+                </div>
+                <div data-mode="Light" data-state="Default" style="width: 36px; height: 36px; border-radius: 100px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+                    <div style="align-self: stretch; flex: 1 1 0; text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Labels---Vibrant---Controls-Primary, #1A1A1A); font-size: 17px; font-family: SF Pro; font-weight: 510; word-wrap: break-word">􀓔</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-tinted="True" style="width: 370px; height: 52px; padding-left: 20px; padding-right: 20px; padding-top: 6px; padding-bottom: 6px; left: 16px; top: 786px; position: absolute; border-radius: 1000px; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+        <div data-mode="Light" data-state="Primary" style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute">
+            <div style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute; background: var(--Accents-Blue, #0088FF); box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.12); border-radius: 1000px"></div>
+            <div style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute; background: rgba(0, 0, 0, 0); border-radius: 296px"></div>
+        </div>
+        <div data-mode="Light" data-state="Default" style="height: 36px; border-radius: 100px; justify-content: center; align-items: center; display: flex">
+            <div style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 17px; font-family: PingFang SC; font-weight: 500; word-wrap: break-word">去应用</div>
+        </div>
+    </div>
+    <div style="width: 260px; height: 396px; left: 16px; top: 258px; position: absolute; background: #D9D9D9; border-radius: 32px"></div>
+    <div style="width: 260px; height: 396px; left: 292px; top: 258px; position: absolute; background: #D9D9D9; border-radius: 32px"></div>
+    <div style="width: 402px; height: 874px; left: 0px; top: 0px; position: absolute; background: rgba(0, 0, 0, 0.50)"></div>
+    <div style="width: 402px; height: 664px; left: 0px; top: 210px; position: absolute; background: var(--Backgrounds-Primary---Elevated, white); box-shadow: 0px 15px 75px rgba(0, 0, 0, 0.18); border-top-left-radius: 38px; border-top-right-radius: 38px; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+        <div data-mode="Light" data-show-subtitle="true" data-style="Default" style="align-self: stretch; padding-bottom: 10px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+            <div style="height: 16px; padding-top: 5px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                <div data-svg-wrapper data-mode="Light" style="position: relative">
+                    <svg width="36" height="5" viewBox="0 0 36 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g style="mix-blend-mode:plus-darker">
+                    <path d="M0 2.5C0 1.11929 1.11929 0 2.5 0H33.5C34.8807 0 36 1.11929 36 2.5C36 3.88071 34.8807 5 33.5 5H2.5C1.11929 5 0 3.88071 0 2.5Z" fill="var(--Fills---Vibrant-Primary, #CCCCCC)"/>
+                    </g>
+                    </svg>
+                </div>
+            </div>
+            <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; position: relative; justify-content: space-between; align-items: center; display: inline-flex">
+                <div data-mode="Light" data-state="Default" style="height: 44px; padding-left: 4px; padding-right: 4px; position: relative; border-radius: 296px; justify-content: center; align-items: center; gap: 12px; display: flex">
+                    <div data-svg-wrapper style="left: 0px; top: 0px; position: absolute">
+                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="22" cy="22" r="22" fill="var(--Fills-Secondary, #787880)" fill-opacity="0.16"/>
+                        </svg>
+                    </div>
+                    <div style="width: 36px; align-self: stretch; text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Labels---Vibrant-Secondary, #727272); font-size: 17px; font-family: SF Pro; font-weight: 510; word-wrap: break-word">􀆄</div>
+                </div>
+                <div style="width: 8px; align-self: stretch; position: relative"></div>
+                <div data-mode="Light" style="width: 36px; height: 22px; left: 183px; top: 13px; position: absolute"></div>
+            </div>
+        </div>
+        <div style="align-self: stretch; flex: 1 1 0; padding-bottom: 36px; flex-direction: column; justify-content: space-between; align-items: center; display: flex">
+            <div style="align-self: stretch; padding-left: 32px; padding-right: 32px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex">
+                <div style="width: 160px; height: 160px; background: rgba(0, 0, 0, 0.05); border-radius: 80px"></div>
+                <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
+                    <div style="color: black; font-size: 22px; font-family: PingFang SC; font-weight: 600; word-wrap: break-word">上传角色图片</div>
+                    <div style="align-self: stretch; color: rgba(0, 0, 0, 0.50); font-size: 15px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">请上传一张清晰的全身照。HarmonyOS Vision 将为您生成定制化的主题角色。</div>
+                </div>
+                <div style="align-self: stretch; padding-left: 24px; padding-right: 24px; padding-top: 20px; padding-bottom: 20px; background: rgba(242, 242, 247, 0.80); border-radius: 16px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 20px; display: flex">
+                    <div style="color: rgba(0, 0, 0, 0.60); font-size: 15px; font-family: PingFang SC; font-weight: 500; word-wrap: break-word">要求</div>
+                    <div style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                        <div style="justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                            <div style="padding: 2.40px; flex-direction: column; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+                                <div style="width: 19.20px; height: 19.20px; text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Accents-Green, #34C759); font-size: 19.20px; font-family: SF Pro; font-weight: 400; line-height: 19.20px; word-wrap: break-word">􀁢</div>
+                            </div>
+                            <div style="color: rgba(0, 0, 0, 0.60); font-size: 15px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">四肢清晰可见，无严重遮挡</div>
+                        </div>
+                        <div style="justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                            <div style="padding: 2.40px; flex-direction: column; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+                                <div style="width: 19.20px; height: 19.20px; text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Accents-Green, #34C759); font-size: 19.20px; font-family: SF Pro; font-weight: 400; line-height: 19.20px; word-wrap: break-word">􀁢</div>
+                            </div>
+                            <div style="color: rgba(0, 0, 0, 0.60); font-size: 15px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">纯色或简单背景为佳</div>
+                        </div>
+                        <div style="justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                            <div style="padding: 2.40px; flex-direction: column; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+                                <div style="width: 19.20px; height: 19.20px; text-align: center; justify-content: center; display: flex; flex-direction: column; color: var(--Accents-Green, #34C759); font-size: 19.20px; font-family: SF Pro; font-weight: 400; line-height: 19.20px; word-wrap: break-word">􀁢</div>
+                            </div>
+                            <div style="color: rgba(0, 0, 0, 0.60); font-size: 15px; font-family: PingFang SC; font-weight: 400; word-wrap: break-word">避免过于复杂的机甲或多臂角色</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-tinted="True" style="width: 370px; height: 52px; padding-left: 20px; padding-right: 20px; padding-top: 6px; padding-bottom: 6px; position: relative; border-radius: 1000px; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+                <div data-mode="Light" data-state="Primary" style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute">
+                    <div style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute; background: var(--Accents-Blue, #0088FF); box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.12); border-radius: 1000px"></div>
+                    <div style="width: 370px; height: 52px; left: 0px; top: 0px; position: absolute; background: rgba(0, 0, 0, 0); border-radius: 296px"></div>
+                </div>
+                <div data-mode="Light" data-state="Default" style="height: 36px; border-radius: 100px; justify-content: center; align-items: center; display: flex">
+                    <div style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 17px; font-family: PingFang SC; font-weight: 500; word-wrap: break-word">选择图片</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
