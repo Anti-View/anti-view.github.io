@@ -150,6 +150,10 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     [0.3, 0.95, 1],
   )
 
+  // Return-to-lock fade multiplier: 1 normally, animated 0→1 during lockScreen
+  const lockFade = useMotionValue(1)
+  const displayOpacity = useTransform([unlockOpacity, lockFade], ([uo, lf]: number[]) => uo * lf)
+
   useEffect(() => {
     ckRef.current = new CornerKit({ smoothing: 0.6 })
     ckRef.current.auto()
@@ -201,8 +205,10 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     animate(pageX, 0, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
     animate(wallX, 0, { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 })
     setIsLocked(true)
-    unlockY.set(-100)
-    animate(unlockY, 0, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
+    unlockY.set(-350)
+    lockFade.set(0)
+    animate(unlockY, 0, { type: 'spring', stiffness: 250, damping: 25, mass: 1 })
+    animate(lockFade, 1, { duration: 0.75, ease: 'easeOut' })
   }
 
   const SF = "'SF Pro Display', 'SF Pro', -apple-system"
@@ -223,7 +229,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
         className="absolute z-30"
         style={{
           left: 16, top: 95, width: 370, height: 731,
-          y: unlockY, opacity: unlockOpacity,
+          y: unlockY, opacity: displayOpacity,
         }}
         drag="y"
         dragConstraints={{ top: -400, bottom: 0 }}
@@ -241,7 +247,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
           }}>
             {String.fromCodePoint(0x1003A1)}
           </span>
-          <img src="/icons/time.svg" alt="" style={{ width: 154, height: 225 }} />
+          <img src="/icons/time.svg" alt="" style={{ width: 154, height: 225 }} draggable={false} className="select-none pointer-events-none" />
         </div>
 
         {/* Bottom glass icons — flush with bottom of 731px div */}
