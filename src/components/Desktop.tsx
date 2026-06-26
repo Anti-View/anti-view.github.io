@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
 import CornerKit from '@cornerkit/core'
 import { publicAsset } from '../utils/assets'
@@ -53,7 +53,7 @@ function Dock({ onOpenApp, onLock }: { onOpenApp?: () => void; onLock?: () => vo
   )
 }
 
-function MobileDockGlass({ wallX }: { wallX: any }) {
+const MobileDockGlass = memo(function MobileDockGlass({ wallX }: { wallX: any }) {
   return (
     <>
       <motion.img
@@ -69,7 +69,6 @@ function MobileDockGlass({ wallX }: { wallX: any }) {
           maxWidth: 'none',
           x: wallX,
           filter: 'blur(16px) saturate(1.35)',
-          scale: 1.0,
           transformOrigin: '0 0',
           willChange: 'transform',
         }}
@@ -88,7 +87,7 @@ function MobileDockGlass({ wallX }: { wallX: any }) {
       />
     </>
   )
-}
+})
 
 /* ── Content panel (350×541) ── */
 function ContentPanel({ children }: { children?: React.ReactNode }) {
