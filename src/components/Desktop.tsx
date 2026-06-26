@@ -82,6 +82,7 @@ function MobileDockGlass({ wallX }: { wallX: any }) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
+          borderRadius: 38,
           boxShadow: 'inset 1px 1px 2px 0px rgba(255, 255, 255, 1.00), inset -0.5px -0.5px 1px 0px rgba(255, 255, 255, 1.00)',
         }}
       />
