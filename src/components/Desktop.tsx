@@ -130,6 +130,19 @@ function Panel2() {
   )
 }
 
+/* ── Panel 3 ── */
+function Panel3() {
+  return (
+    <ContentPanel>
+      <div data-squircle data-squircle-radius="28" data-squircle-smoothing="0.6" className="w-[350px] h-[350px] bg-white relative">
+        <WidgetLabel label="小组件E" />
+      </div>
+      <div className="absolute left-0 top-[382px]"><IconGrid labels={['应用17', '应用18', '应用19', '应用20']} /></div>
+      <div className="absolute left-[191px] top-[382px]"><IconGrid labels={['应用21', '应用22', '应用23', '应用24']} /></div>
+    </ContentPanel>
+  )
+}
+
 /* ── Desktop ── */
 interface DesktopProps { onOpenApp?: () => void }
 
@@ -169,9 +182,8 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
 
   const handleUnlockDragEnd = (_: any, info: { offset: { y: number } }) => {
     if (info.offset.y < -UNLOCK_THRESHOLD) {
-      // ── Unlock: fly off + wallpaper to B segment ──
+      // ── Unlock: fly off, wallpaper stays at A segment ──
       animate(unlockY, -874, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
-      animate(wallX, -402, { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 })
       setIsLocked(false)
       setUnlockedPage(0)
     } else {
@@ -181,21 +193,21 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     }
   }
 
-  /* ── Unlocked: horizontal page drag → wallpaper sync (clamped to B–C segments) ── */
+  /* ── Unlocked: horizontal page drag → wallpaper sync (A–C segments) ── */
   const handlePageDrag = (_: any, info: { offset: { x: number } }) => {
-    const startWallX = -402 * (unlockedPage + 1)  // -402 for page 1, -804 for page 2
+    const startWallX = -unlockedPage * 402
     const raw = startWallX + info.offset.x
-    wallX.set(Math.max(-804, Math.min(-402, raw)))
+    wallX.set(Math.max(-804, Math.min(0, raw)))
   }
 
   const handlePageDragEnd = (_: any, info: { offset: { x: number } }) => {
     const threshold = 50
     let target = unlockedPage
-    if (info.offset.x < -threshold && unlockedPage < 1) target = 1
-    else if (info.offset.x > threshold && unlockedPage > 0) target = 0
+    if (info.offset.x < -threshold && unlockedPage < 2) target = unlockedPage + 1
+    else if (info.offset.x > threshold && unlockedPage > 0) target = unlockedPage - 1
     setUnlockedPage(target)
     animate(pageX, -target * 402, { type: 'spring', stiffness: 300, damping: 28, mass: 1 })
-    animate(wallX, -402 + (-target * 402), { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 })
+    animate(wallX, -target * 402, { type: 'spring', stiffness: 200, damping: 30, mass: 0.5 })
   }
 
   /* ── Return to lock screen (dock first icon) ── */
@@ -217,12 +229,33 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
     <div className="absolute inset-0 z-50 overflow-hidden bg-black">
       {/* ── Wallpaper (single, always rendered, spring-smoothed) ── */}
       <motion.img
-        src="/img/Wallpaper.jpg"
+        src="/img/new_wallpaper.jpg"
         alt=""
         className="absolute left-0 top-0 pointer-events-none select-none"
         style={{ width: 1206, height: 874, maxWidth: 'none', x: wallSpring }}
         draggable={false}
       />
+
+      {/* ── b-layer character (page 1 / B segment, 280×280, centered, 140px from bottom) ── */}
+      <motion.div
+        className="absolute pointer-events-none select-none z-[1]"
+        style={{
+          left: 61, top: 454, width: 280, height: 280,
+          x: wallSpring,
+        }}
+      >
+        {/* Floor shadow — 170×12 ellipse, blurred */}
+        <div
+          className="absolute"
+          style={{
+            left: 55, bottom: 0, width: 170, height: 12,
+            background: '#C2976C',
+            borderRadius: '50%',
+            filter: 'blur(12px)',
+          }}
+        />
+        <img src="/videos/character.gif" alt="" className="w-full h-full object-contain relative" draggable={false} style={{ position: 'relative', zIndex: 1 }} />
+      </motion.div>
 
       {/* ── Unlock Div: lock icon + time + bottom glass icons (370×731, bottom=48) ── */}
       <motion.div
@@ -259,14 +292,14 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
         </div>
       </motion.div>
 
-      {/* ── A Layer: 2-page horizontal swipe (pages 1–2, only when unlocked) ── */}
+      {/* ── a-layer: 3-page horizontal swipe (pages 1–3, only when unlocked) ── */}
       <motion.div
-        className="absolute inset-0 flex"
+        className="absolute inset-0 flex z-[5]"
         drag={isLocked ? false : "x"}
-        dragConstraints={{ left: -402, right: 0 }}
+        dragConstraints={{ left: -804, right: 0 }}
         dragElastic={0.2}
         dragMomentum={false}
-        style={{ x: pageX, width: 804 }}
+        style={{ x: pageX, width: 1206 }}
         animate={{ opacity: isLocked ? 0 : 1 }}
         transition={{ duration: 0.2 }}
         onDrag={handlePageDrag}
@@ -274,6 +307,7 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
       >
         <div className="w-[402px] h-full flex-shrink-0"><Panel1 /></div>
         <div className="w-[402px] h-full flex-shrink-0"><Panel2 /></div>
+        <div className="w-[402px] h-full flex-shrink-0"><Panel3 /></div>
       </motion.div>
 
       {/* ── Dock: visible when unlocked, slides up from below ── */}
