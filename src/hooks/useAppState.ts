@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 
-export type AppState = 'idle' | 'upload' | 'gallery' | 'loading' | 'ready'
+export type AppState = 'idle' | 'upload' | 'gallery' | 'loading' | 'ready' | 'desktop'
 
 export function useAppState() {
-  const [current, setCurrent] = useState<AppState>('idle')
+  const [current, setCurrent] = useState<AppState>('desktop')
   const currentRef = useRef<AppState>('idle')
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const transitioning = useRef(false)
@@ -13,6 +13,14 @@ export function useAppState() {
   useEffect(() => { currentRef.current = current }, [current])
 
   const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms))
+
+  const openTheme = useCallback(async () => {
+    if (transitioning.current || currentRef.current !== 'desktop') return
+    transitioning.current = true
+    setCurrent('idle')
+    await wait(350)
+    transitioning.current = false
+  }, [])
 
   const goToUpload = useCallback(async () => {
     if (transitioning.current || currentRef.current !== 'idle') return
@@ -81,6 +89,14 @@ export function useAppState() {
     transitioning.current = false
   }, [])
 
+  const dismissDesktop = useCallback(async () => {
+    if (transitioning.current || currentRef.current !== 'desktop') return
+    transitioning.current = true
+    setCurrent('idle')
+    await wait(400)
+    transitioning.current = false
+  }, [])
+
   const applyAndDismiss = useCallback(async () => {
     if (transitioning.current || currentRef.current !== 'ready') return
     transitioning.current = true
@@ -91,9 +107,18 @@ export function useAppState() {
     return true
   }, [])
 
+  const goToDesktop = useCallback(async () => {
+    if (transitioning.current || currentRef.current !== 'idle') return
+    transitioning.current = true
+    setCurrent('desktop')
+    await wait(400)
+    transitioning.current = false
+  }, [])
+
   return {
     current,
     selectedImage,
+    openTheme,
     goToUpload,
     goToGallery,
     selectFromGallery,
@@ -101,5 +126,6 @@ export function useAppState() {
     backFromLoading,
     dismissToIdle,
     applyAndDismiss,
+    goToDesktop,
   }
 }

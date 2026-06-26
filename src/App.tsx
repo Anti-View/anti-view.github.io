@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import PhoneFrame from './components/PhoneFrame'
 import StatusBar from './components/StatusBar'
 import NavBar from './components/NavBar'
@@ -10,12 +10,14 @@ import LoadingCard from './components/LoadingCard'
 import ReadySheet from './components/ReadySheet'
 import SuccessToast from './components/SuccessToast'
 import DynamicIsland from './components/DynamicIsland'
+import Desktop from './components/Desktop'
 import { useAppState } from './hooks/useAppState'
 
 export default function App() {
   const {
     current,
     selectedImage,
+    openTheme,
     goToUpload,
     goToGallery,
     selectFromGallery,
@@ -23,6 +25,7 @@ export default function App() {
     backFromLoading,
     dismissToIdle,
     applyAndDismiss,
+    goToDesktop,
   } = useAppState()
 
   const [islandExpanded, setIslandExpanded] = useState(false)
@@ -40,64 +43,96 @@ export default function App() {
     if (result) showToast()
   }, [applyAndDismiss, showToast])
 
+  const themeActive = current !== 'desktop'
+
   return (
     <PhoneFrame>
-      {/* ── Always-visible base layer ── */}
-      <StatusBar />
-      <NavBar />
-      <ThemeDetail onApply={goToUpload} />
+      {/* ── Desktop — always rendered, shifts left when theme pushes in ── */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        animate={{ x: themeActive ? -80 : 0 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 28, mass: 1 }}
+      >
+        <Desktop onOpenApp={openTheme} />
+      </motion.div>
 
-      {/* ── Dynamic Island (topmost, above all overlays) ── */}
+      {/* ── Theme page — slides in from right ── */}
+      <AnimatePresence>
+        {themeActive && (
+          <motion.div
+            key="theme-page"
+            className="absolute inset-0 z-10"
+            initial={{ x: 402 }}
+            animate={{ x: 0 }}
+            exit={{ x: 402 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 28, mass: 1 }}
+          >
+            {/* Theme page background — white to cover desktop */}
+            <div className="absolute inset-0 bg-white" />
+
+            {/* NavBar — home button returns to desktop */}
+            <NavBar onHome={goToDesktop} />
+
+            {/* Theme detail content */}
+            <ThemeDetail onApply={goToUpload} />
+
+            {/* ── Overlays ── */}
+            <AnimatePresence>
+              {current === 'upload' && (
+                <UploadSheet
+                  key="upload-sheet"
+                  selectedImage={selectedImage}
+                  onSelectImage={goToGallery}
+                  onClose={dismissToIdle}
+                />
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {current === 'gallery' && (
+                <GalleryPage
+                  key="gallery-page"
+                  state={current}
+                  onSelect={selectFromGallery}
+                  onCancel={backFromGallery}
+                />
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {current === 'loading' && (
+                <LoadingCard
+                  key="loading-card"
+                  state={current}
+                  onClose={backFromLoading}
+                />
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {current === 'ready' && (
+                <ReadySheet
+                  key="ready-sheet"
+                  state={current}
+                  selectedImage={selectedImage}
+                  onApply={handleApply}
+                  onClose={dismissToIdle}
+                />
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Global StatusBar ── */}
+      <StatusBar />
+
+      {/* ── Dynamic Island ── */}
       <DynamicIsland
         expanded={islandExpanded}
         variant="square"
         onToggle={() => setIslandExpanded(prev => !prev)}
       />
-
-      {/* ── Overlays (managed by AnimatePresence) ── */}
-      <AnimatePresence>
-        {current === 'upload' && (
-          <UploadSheet
-            key="upload-sheet"
-            selectedImage={selectedImage}
-            onSelectImage={goToGallery}
-            onClose={dismissToIdle}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {current === 'gallery' && (
-          <GalleryPage
-            key="gallery-page"
-            state={current}
-            onSelect={selectFromGallery}
-            onCancel={backFromGallery}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {current === 'loading' && (
-          <LoadingCard
-            key="loading-card"
-            state={current}
-            onClose={backFromLoading}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {current === 'ready' && (
-          <ReadySheet
-            key="ready-sheet"
-            state={current}
-            selectedImage={selectedImage}
-            onApply={handleApply}
-            onClose={dismissToIdle}
-          />
-        )}
-      </AnimatePresence>
 
       {/* ── Success toast ── */}
       <SuccessToast key={toastKey} visible={toastVisible} />
