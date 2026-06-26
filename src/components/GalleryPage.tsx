@@ -1,26 +1,7 @@
 import { motion } from 'framer-motion'
 import type { AppState } from '../hooks/useAppState'
 
-const PHOTO_COLORS = [
-  'linear-gradient(135deg, #667eea, #764ba2)',
-  'linear-gradient(135deg, #f093fb, #f5576c)',
-  'linear-gradient(135deg, #4facfe, #00f2fe)',
-  'linear-gradient(135deg, #43e97b, #38f9d7)',
-  'linear-gradient(135deg, #fa709a, #fee140)',
-  'linear-gradient(135deg, #a18cd1, #fbc2eb)',
-  'linear-gradient(135deg, #fccb90, #d57eeb)',
-  'linear-gradient(135deg, #e0c3fc, #8ec5fc)',
-  'linear-gradient(135deg, #f5576c, #ff6f00)',
-  'linear-gradient(135deg, #30cfd0, #330867)',
-  'linear-gradient(135deg, #a8edea, #fed6e3)',
-  'linear-gradient(135deg, #ff9a9e, #fecfef)',
-  'linear-gradient(135deg, #96fbc4, #f9f586)',
-  'linear-gradient(135deg, #d4fc79, #96e6a1)',
-  'linear-gradient(135deg, #89f7fe, #66a6ff)',
-  'linear-gradient(135deg, #c471f5, #fa71cd)',
-  'linear-gradient(135deg, #48c6ef, #6f86d6)',
-  'linear-gradient(135deg, #feada6, #f5efef)',
-]
+const PHOTO_COUNT = 18
 
 interface GalleryPageProps {
   state: AppState
@@ -28,55 +9,90 @@ interface GalleryPageProps {
   onCancel: () => void
 }
 
+const sfFont = "'SF Pro Display', 'SF Pro', -apple-system"
+const xmark = String.fromCodePoint(0x100184)
+
 export default function GalleryPage({ state, onSelect, onCancel }: GalleryPageProps) {
   const isVisible = state === 'gallery'
 
   return (
     <>
       {isVisible && (
-        <motion.div
-          className="absolute inset-0 bg-white z-40 flex flex-col"
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          transition={{ type: 'spring', damping: 28, stiffness: 280, mass: 1.1 }}
-        >
-          {/* Top nav */}
-          <div className="flex items-center justify-between px-4 h-[62px] pt-[21px] flex-shrink-0" style={{ fontFamily: "var(--font-ui)" }}>
-            <button
-              onClick={onCancel}
-              className="text-[#0088FF] text-[17px] cursor-pointer active:opacity-60 transition-opacity"
-            >
-              取消
-            </button>
-            <span className="text-[17px] font-medium text-black">最近项目</span>
-            <button className="text-[#0088FF] text-[17px] cursor-pointer active:opacity-60 transition-opacity">
-              相册
-            </button>
-          </div>
+        <>
+          {/* Dark overlay */}
+          <motion.div
+            className="absolute inset-0 z-30"
+            style={{ background: 'rgba(0, 0, 0, 0.50)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onCancel}
+          />
 
-          {/* Photo grid — scrollbar hidden by global CSS */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="grid grid-cols-3 gap-[2px] p-[2px]">
-              {PHOTO_COLORS.map((color, i) => (
-                <motion.button
-                  key={i}
-                  onClick={() => onSelect(i)}
-                  whileTap={{ scale: 0.94 }}
-                  className="aspect-square cursor-pointer relative hover-darken"
-                  style={{ background: color }}
+          {/* Gallery sheet */}
+          <motion.div
+            className="absolute z-40 bg-white flex flex-col"
+            style={{
+              left: 0, top: 62, width: 402, height: 812,
+              borderTopLeftRadius: 38, borderTopRightRadius: 38,
+              boxShadow: '0px 15px 75px rgba(0, 0, 0, 0.18)',
+            }}
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', stiffness: 280, damping: 28, mass: 1.1 }}
+          >
+            {/* Header: drag pill + close button */}
+            <div className="flex flex-col items-center flex-shrink-0" style={{ paddingBottom: 10 }}>
+              {/* Drag pill */}
+              <div className="flex flex-col items-start" style={{ height: 16, paddingTop: 5 }}>
+                <svg width="36" height="5" viewBox="0 0 36 5" fill="none">
+                  <g style={{ mixBlendMode: 'plus-darker' }}>
+                    <path d="M0 2.5C0 1.11929 1.11929 0 2.5 0H33.5C34.8807 0 36 1.11929 36 2.5C36 3.88071 34.8807 5 33.5 5H2.5C1.11929 5 0 3.88071 0 2.5Z" fill="#CCCCCC" />
+                  </g>
+                </svg>
+              </div>
+
+              {/* Close button */}
+              <div className="self-stretch px-4 relative flex justify-between items-center">
+                <button
+                  onClick={onCancel}
+                  className="h-[44px] px-1 relative rounded-[296px] flex items-center justify-center cursor-pointer active:scale-95 transition-transform"
+                  style={{ gap: 12 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
-                </motion.button>
-              ))}
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style={{ position: 'absolute', left: 0, top: 0 }}>
+                    <circle cx="22" cy="22" r="22" fill="#787880" fillOpacity="0.16" />
+                  </svg>
+                  <span style={{
+                    width: 36, textAlign: 'center',
+                    fontFamily: sfFont, fontSize: 17, fontWeight: 510,
+                    color: '#727272', lineHeight: '44px',
+                  }}>
+                    {xmark}
+                  </span>
+                </button>
+                <div style={{ width: 8 }} />
+                <div style={{ width: 36 }} />
+              </div>
             </div>
-          </div>
 
-          {/* Bottom toolbar */}
-          <div className="h-[84px] flex items-center justify-center border-t border-gray-200 flex-shrink-0" style={{ fontFamily: "var(--font-ui)" }}>
-            <span className="text-[15px] text-black/40">轻点以选择照片</span>
-          </div>
-        </motion.div>
+            {/* Photo grid */}
+            <div className="flex-1 overflow-y-auto px-1">
+              <div className="grid grid-cols-3 gap-1 p-1">
+                {Array.from({ length: PHOTO_COUNT }, (_, i) => (
+                  <motion.button
+                    key={i}
+                    onClick={() => onSelect(i)}
+                    whileTap={{ scale: 0.94 }}
+                    className="cursor-pointer relative overflow-hidden"
+                    style={{ height: 128.67, background: '#D9D9D9' }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </>
       )}
     </>
   )
