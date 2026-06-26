@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion'
 import CornerKit from '@cornerkit/core'
 
-const UNLOCK_THRESHOLD = 280
+const UNLOCK_THRESHOLD = 64
 
 function AppIcon({ label }: { label?: string }) {
   return (

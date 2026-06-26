@@ -1,10 +1,13 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import CornerKit from '@cornerkit/core'
 import TouchCursor from './TouchCursor'
 
 export default function PhoneFrame({ children }: { children: ReactNode }) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const phoneRef = useRef<HTMLDivElement>(null)
+  const [isMobile] = useState(() =>
+    typeof window !== 'undefined' && 'ontouchstart' in window,
+  )
 
   useEffect(() => {
     const updateScale = () => {
@@ -27,21 +30,21 @@ export default function PhoneFrame({ children }: { children: ReactNode }) {
     return () => ck.destroy()
   }, [])
 
-  return (
-    <TouchCursor>
-      <div className="w-screen h-screen flex items-center justify-center bg-black">
+  const content = (
+    <div className="w-screen h-screen flex items-center justify-center bg-black">
+      <div
+        ref={wrapperRef}
+        style={{ willChange: 'transform', transformOrigin: 'center center' }}
+      >
         <div
-          ref={wrapperRef}
-          style={{ willChange: 'transform', transformOrigin: 'center center' }}
+          ref={phoneRef}
+          className="w-[402px] h-[874px] rounded-[64px] overflow-hidden bg-white relative flex-shrink-0"
         >
-          <div
-            ref={phoneRef}
-            className="w-[402px] h-[874px] rounded-[64px] overflow-hidden bg-white relative flex-shrink-0"
-          >
-            {children}
-          </div>
+          {children}
         </div>
       </div>
-    </TouchCursor>
+    </div>
   )
+
+  return isMobile ? content : <TouchCursor>{content}</TouchCursor>
 }
