@@ -1,6 +1,5 @@
-node_modules
-dist
-.DS_Store
-*.local
-nul
-tsconfig.tsbuildinfo
+*
+!docs/
+!docs/**
+!.gitignore
+!.gitattributes
