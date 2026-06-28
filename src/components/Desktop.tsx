@@ -156,7 +156,7 @@ function Panel1({ onWidgetClick }: { onWidgetClick: (type: string, variant: Isla
     <ContentPanel>
       <div className="flex flex-col gap-[32px]">
         <div data-squircle data-squircle-radius="28" data-squircle-smoothing="0.6" className="w-[350px] h-[159px] relative overflow-hidden cursor-pointer active:scale-[0.98] transition-transform" {...tapA}>
-          {/* Layer 4: 底层 (bottom) */}
+          {/* Layer 4: 底层 */}
           <img src={publicAsset('img/小组件A/底层.png')} alt="" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
           {/* Layer 3: 染色层 */}
           <img src={publicAsset('img/小组件A/染色层.png')} alt="" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
@@ -339,28 +339,17 @@ export default function Desktop({ onOpenApp }: DesktopProps) {
           return import(/* @vite-ignore */ src)
         })()
         if (cancelled || !mod.LiquidGlass) return
-        const glassEl = document.querySelector('[data-glass="dock"]') as HTMLElement | null
-        if (!glassEl) return
-        glassEl.dataset.config = JSON.stringify({
-          blurAmount: 0.05,
-          refraction: 0.5,
-          chromAberration: 0.05,
-          edgeHighlight: 0.15,
-          specular: 0,
-          fresnel: 1,
-          distortion: 0,
-          cornerRadius: 40,
-          zRadius: 40,
-          opacity: 1,
-          saturation: 0,
-          brightness: 0,
-          shadowOpacity: 0,
-          shadowSpread: 10,
-          bevelMode: 0,
+        const dockEl = document.querySelector('[data-glass="dock"]') as HTMLElement | null
+        if (!dockEl) return
+        dockEl.dataset.config = JSON.stringify({
+          blurAmount: 0.05, refraction: 0.5, chromAberration: 0.05,
+          edgeHighlight: 0.15, specular: 0, fresnel: 1, distortion: 0,
+          cornerRadius: 40, zRadius: 40, opacity: 1, saturation: 0,
+          brightness: 0, shadowOpacity: 0, shadowSpread: 10, bevelMode: 0,
         })
         instance = await mod.LiquidGlass.init({
           root: document.querySelector('#liquid-root'),
-          glassElements: [glassEl],
+          glassElements: [dockEl],
         })
         lgRef.current = instance
       } catch (e) {
